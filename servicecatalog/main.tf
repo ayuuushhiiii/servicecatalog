@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.22.0"
+      version = "~> 3.0"
     }
   }
   required_version = ">= 1.3"
@@ -41,7 +41,8 @@ resource "aws_servicecatalog_product" "ec2_product" {
 resource "aws_servicecatalog_provisioned_product" "ec2_instance" {
   name                     = "My-EC2-From-ServiceCatalog"
   product_id               = aws_servicecatalog_product.ec2_product.id
-  provisioning_artifact_id = aws_servicecatalog_product.ec2_product.provisioning_artifact[0].id
+  # Use the provisioning artifact ID from the AWS console
+  provisioning_artifact_id = "pa-xxxxxxxxxxxx"  
 
   provisioning_parameters {
     key   = "InstanceType"
