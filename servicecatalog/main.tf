@@ -1,4 +1,3 @@
-# Provider
 provider "aws" {
   region = "us-west-1"
 }
@@ -16,7 +15,7 @@ resource "aws_servicecatalog_product" "ec2_product" {
   owner = "MyTeam"
   type  = "CLOUD_FORMATION_TEMPLATE"
 
-  provisioning_artifact_parameters {  # or `provisioning_artifact {}` if AWS provider v5+
+  provisioning_artifact_parameters {
     name         = "v1"
     description  = "Initial version"
     type         = "CLOUD_FORMATION_TEMPLATE"
@@ -30,28 +29,6 @@ resource "aws_servicecatalog_portfolio_product_association" "association" {
   product_id   = aws_servicecatalog_product.ec2_product.id
 }
 
-# Provision EC2 from Service Catalog
-resource "aws_servicecatalog_provisioned_product" "ec2_instance" {
-  name                     = "My-EC2-From-ServiceCatalog"
-  product_id               = aws_servicecatalog_product.ec2_product.id
-  provisioning_artifact_id = aws_servicecatalog_product.ec2_product.provisioning_artifact_parameters[0].id
-
-  provisioning_parameters {
-    key   = "InstanceType"
-    value = "t2.micro"
-  }
-
-  provisioning_parameters {
-    key   = "AmiId"
-    value = "ami-020cba7c55df1f615"
-  }
-
-  provisioning_parameters {
-    key   = "SubnetId"
-    value = "subnet-05d699a18f9aa8e91"
-  }
-}
-
 # Outputs
 output "portfolio_id" {
   value = aws_servicecatalog_portfolio.ec2_portfolio.id
@@ -59,8 +36,4 @@ output "portfolio_id" {
 
 output "product_id" {
   value = aws_servicecatalog_product.ec2_product.id
-}
-
-output "provisioned_product_id" {
-  value = aws_servicecatalog_provisioned_product.ec2_instance.id
 }
