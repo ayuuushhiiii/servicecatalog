@@ -24,7 +24,7 @@ variable "subnet_id" {
   default = "subnet-05d699a18f9aa8e91"
 }
 
- Portfolio
+# Portfolio
 resource "aws_servicecatalog_portfolio" "ec2_portfolio" {
   name          = "EC2 Portfolio"
   description   = "Portfolio for EC2 instances"
